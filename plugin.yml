@@ -1,0 +1,45 @@
+name: BountyRewards
+main: io.github.mac_genius.bountyrewards.BountyRewards
+version: 1.0
+depend: [Vault]
+permissions:
+    br.*:
+        description: Gives access to all commands for the plugin
+        children:
+            br.reload: true
+            br.help: true
+            br.setbounty: true
+            br.list: true
+    br.reload:
+        description: Allows a player to reload the config
+        default: op
+    br.help:
+        description: Brings up the commands
+        default: op
+    br.setbounty:
+        description: Allow a player to set a bounty on another player
+        default: false
+    br.list:
+            description: This will allow a player to list current bounties
+            default: false
+commands:
+    br:
+        description: This is the help command.
+        usage: /br
+        permission: br.help
+        permission-message: You do not have permission to do that.
+    br reload:
+            description: This will reload the plugin.
+            usage: /br reload
+            permission: br.reload
+            permission-message: You do not have permission to do that.
+    br player amount:
+            description: This will allow a player to set a bounty.
+            usage: /br <player> (amount)
+            permission: br.setbounty
+            permission-message: You do not have permission to do that.
+    br list:
+                description: This will allow a player to list current bounties.
+                usage: /br list
+                permission: br.list
+                permission-message: You do not have permission to do that.

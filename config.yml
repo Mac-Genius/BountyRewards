@@ -1,0 +1,20 @@
+# This is where you can change all the fancy settings for the plugin!
+
+# This is the broadcast when a player places a bounty on someone.
+BountyBroadcast: '&3A &b%money% &3bounty has been placed on &b%player%&3!'
+
+# This is broadcast when someone collects the bounty.
+BountyComplete: '&b%collector% &3has collected the bounty on &b%player%&3!'
+
+# This is when a player tries to create a buonty but does not have enough money
+NoMoney: 'You do not have enough money to place the bounty!'
+
+# The header for the list of bounties
+BountyHeader: '&e------------[Bounty List]------------'
+
+# The list formatting
+BountyList: '&6%number%. &eWanted: &6%player% &eReward: &6$%money%'
+
+# List of current bounties to be collected
+# Player who set bounty | amount set | player with bounty
+CurrentBounties:
