@@ -1,6 +1,6 @@
 name: BountyRewards
 main: io.github.mac_genius.bountyrewards.BountyRewards
-version: 1.0
+version: 1.2
 depend: [Vault]
 permissions:
     br.*:
@@ -9,37 +9,42 @@ permissions:
             br.reload: true
             br.help: true
             br.setbounty: true
+            br.removebounty: true
+            br.increasebounty: true
             br.list: true
+            br.anonymous: true
+            br.admin: true
+            br.updatesql: true
     br.reload:
         description: Allows a player to reload the config
         default: op
     br.help:
         description: Brings up the commands
-        default: op
+        default: true
     br.setbounty:
         description: Allow a player to set a bounty on another player
-        default: false
+        default: op
+    br.removebounty:
+        description: Allow a player to remove a bounty on another player
+        default: op
+    br.increasebounty:
+        description: Allow a player to increase a bounty on another player
+        default: op
     br.list:
-            description: This will allow a player to list current bounties
-            default: false
+        description: This will allow a player to list current bounties
+        default: op
+    br.anonymous:
+        description: Allows a player to place the bounty anonymously
+        default: op
+    br.admin:
+        description: Allows a player to view admin commands
+        default: op
+    br.updatesql:
+        description: Allows a player to update the sql database
+        default: op
 commands:
-    br:
+    bounty:
         description: This is the help command.
-        usage: /br
+        usage: /bounty
         permission: br.help
         permission-message: You do not have permission to do that.
-    br reload:
-            description: This will reload the plugin.
-            usage: /br reload
-            permission: br.reload
-            permission-message: You do not have permission to do that.
-    br player amount:
-            description: This will allow a player to set a bounty.
-            usage: /br <player> (amount)
-            permission: br.setbounty
-            permission-message: You do not have permission to do that.
-    br list:
-                description: This will allow a player to list current bounties.
-                usage: /br list
-                permission: br.list
-                permission-message: You do not have permission to do that.

@@ -1,0 +1,6 @@
+# CurrentBounties is the list of current bounties to be collected
+# CurrentBounties format: playerUUID|setterUUID|whenSet|playerName|setterName
+# Cooldown Format: playerUUID|whenKilled|playerName
+
+CurrentBounties: []
+Cooldown: []

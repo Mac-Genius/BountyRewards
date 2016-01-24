@@ -1,20 +1,205 @@
 # This is where you can change all the fancy settings for the plugin!
+# NOTE: When you have MySQL enabled, messages and settings from the database are used.
+# This allows all servers on your network to use the same info.
+# If you want to update the messages and settings on the database, you change it here then
+# do "/bounty updatesql" in game. MySQL settings are still read from the config.
 
-# This is the broadcast when a player places a bounty on someone.
-BountyBroadcast: '&3A &b%money% &3bounty has been placed on &b%player%&3!'
+############################################################
+# +------------------------------------------------------+ #
+# |                       Messages                       | #
+# +------------------------------------------------------+ #
+############################################################
 
-# This is broadcast when someone collects the bounty.
+###########################
+# Setting bounty messages #
+###########################
+
+# SetPrefix is displayed while setting a bounty.
+SetPrefix: '&9[BountyRewards] &f'
+
+# SetBountyMessage is displayed when a player places a bounty
+SetBountyMessage: 'Who do you want to place a bounty on? (type cancel to stop placing a bounty)'
+
+# SetAmountMessage is displayed when placing a bounty
+SetAmountMessage: 'Please enter an amount to place on %player%. The current transaction fee is %transfee% and you cannot place more than %max%.'
+
+# SetCooldownMessage is the message displayed when a player tries to create a bounty on another player that is cooling down.
+SetCooldownMessage: '%player% is still cooling down for %time% from the last bounty. Please choose another.'
+
+# SetOfflineMessage is displayed when a player tries to place a bounty on an offline player.
+SetOfflineMessage: '%player% does not seem to be online right now. Please choose another.'
+
+# SetAlreadyExists is displayed when a player tries to set a bounty on a player who already has a bounty.
+SetAlreadyExists: 'A bounty for %player% already exists.'
+
+# AnonymousMessage is the message to be displayed when a player tries to place a bounty and can place it anonymously.
+AnonymousMessage: 'Would you like to place the bounty anonymously? "yes", "no", "cancel"'
+
+# PlaceOnYourself is the error message when a player tries to place a bounty on themselves.
+PlaceOnYourself: 'You cannot put a bounty on yourself. Please choose another player.'
+
+# BountyBroadcast is the broadcast when a player places a bounty on someone.
+BountyBroadcast: '&b%placer%&3 has placed a &b%money% &3bounty on &b%player%&3!'
+
+# AnonymousBroadcast is the broadcast when a player places a bounty on someone.
+AnonymousBroadcast: '&3A &b%money% &3bounty has been placed on &b%player%&3!'
+
+# NoMoney is when a player tries to create a bounty but does not have enough money
+NoMoney: 'You do not have enough money to place the bounty! You only have %money%.'
+
+# SetMinMessage is displayed when a player does not meet the minimum money value when placing a bounty.
+SetMinMessage: 'You need to place at least %min% to set a bounty.'
+
+# SetOverMax is displayed when a player enters an amount that will make the bounty amount go over the max.
+SetOverMax: 'You cannot go over the max value (%max%). Enter another value.'
+
+############################
+# Increase bounty messages #
+############################
+
+# IncreasePrefix is displayed while increasing a bounty.
+IncreasePrefix: '&9[BountyRewards] &f'
+
+# IncreaseBountyMessage is displayed when a player increases a bounty
+IncreaseBountyMessage: 'Please type the name of the player whos bounty will be increased.'
+
+# IncreaseAmountMessage is displayed when increasing a bounty
+IncreaseAmountMessage: 'How much do you want to increase the bounty by? (Currently: %current%, Maximum: %max%)'
+
+# IncreaseNoBounty is displayed when a player tries to increase a bounty that doesn't exist.
+IncreaseNoBounty: '%player% does not have a bounty. Please choose another.'
+
+# IncreaseNoMoney is displayed when a player doen't have enough money to increase a bounty
+IncreaseNoMoney: 'You do not have enough money to do that. You only have %money%. Please enter another value.'
+
+# IncreaseOverMax is displayed when a player enters an amount that will make the bounty amount go over the max.
+IncreaseOverMax: 'You cannot go over the max value (%max%). Enter another value.'
+
+# BountyIncrease is the broadcast when a player increases the bounty amount.
+BountyIncrease: 'The bounty on %player% has been increased to %money%!'
+
+##########################
+# Remove bounty messages #
+##########################
+
+# RemovePrefix is displayed when a player is removing a bounty
+RemovePrefix: '&9[BountyRewards] &f'
+
+# RemoveBountyMessage is displayed when a player is removing a bounty
+RemoveBountyMessage: 'Please type the number of the bounty you would like to delete.'
+
+# BountyCancel is the message when a player cancels a bounty.
+BountyCancel: 'You have cancelled the bounty on %player% and recieved %money% back.'
+
+# RemoveAnnouncement is displayed to all users when a player removes a bounty
+RemoveAnnouncement: 'The bounty for %player% has been removed.'
+
+# RemoveNoBounties is displayed when a player has no bounties to remove
+RemoveNoBounties: 'You have no bounties to remove.'
+
+# RemoveDisabled is displayed when a player tries to remove a bounty when it is disab;ed in the config
+RemoveDisabled: 'You cannot remove bounties at the time.'
+
+#########################
+# Other bounty messages #
+#########################
+
+# BountyComplete is broadcasted when someone collects the bounty.
 BountyComplete: '&b%collector% &3has collected the bounty on &b%player%&3!'
 
-# This is when a player tries to create a buonty but does not have enough money
-NoMoney: 'You do not have enough money to place the bounty!'
+# BountyExpire is the message when a player's bounty expires.
+BountyExpire: 'The bounty on %player% has expired.'
 
-# The header for the list of bounties
+# BountyHeader is the header for the list of bounties
 BountyHeader: '&e------------[Bounty List]------------'
 
-# The list formatting
+# BountyList is the list formatting
 BountyList: '&6%number%. &eWanted: &6%player% &eReward: &6$%money%'
 
-# List of current bounties to be collected
-# Player who set bounty | amount set | player with bounty
-CurrentBounties:
+# DropOnDeath is the message when a player with a bounty dies and losses money.
+DropOnDeath: 'You dropped $%money%!'
+
+# NoBounties is displayed when a player does the list command and there are no bounties.
+NoBounties: 'There are no bounties currently. Check again later.'
+
+# TimeoutMessage is displayed when a player doesn't respond to a question for 20 secoonds
+TimeoutMessage: 'You have stopped %action% a bounty due to inactivity.'
+
+# CancelAction is displayed when a player quits an action
+CancelAction: 'You have cancelled %action% a bounty.'
+
+# CollectYourself is displayed when a player tries to collect their own bounty
+CollectYourself: 'You cannot collect your own bounty.'
+
+############################################################
+# +------------------------------------------------------+ #
+# |                 Economy Transactions                 | #
+# +------------------------------------------------------+ #
+############################################################
+
+# CancelBounty allows a player who placed a bounty to remove the bounty.
+CancelBounty: false
+
+# If CancelBounty is true, then this is the refund that the player will receive back. (Percentage)
+Refund: 80
+
+# The min and max values set the minimum and maximum values the bounty can be set. Leave as -1 if you don't care what the value is.
+Min: 100
+Max: -1
+
+# TransactionFee is the amount of money required to place a bounty in addition to the bounty amount.
+TransactionFee: 0
+
+# DeathCost is the amount of money lost when a player is killed. It is given to the killer.
+# This does not include the price
+DeathCost: 0
+
+#DeathCostMode is how the money is handled. The modes are: percentage and fixed
+DeathCostMode: fixed
+
+# RandomizeDeathCost allows a randomly selected amount of money to be taken from a player upon death from 0 to the range. Can only be used on fixed mode.
+# Range is how much randomization can occur.
+RandomizeDeathCost: false
+Range: 50
+
+############################################################
+# +------------------------------------------------------+ #
+# |                     More Settings                    | #
+# +------------------------------------------------------+ #
+############################################################
+
+# Cooldown limits how often a player can get a bounty placed on him/her. Starts after being killed for a bounty. (Minutes)
+Cooldown: 0
+
+# Expiration makes the bounty expire after a certain amount of time. Leave as -1 to never expire. (Minutes)
+Expiration: -1
+
+# Anonymous bounties allow players to set the bounty anonymously.
+Anonymous: true
+
+############################################################
+# +------------------------------------------------------+ #
+# |                     MySQL Settings                   | #
+# +------------------------------------------------------+ #
+############################################################
+
+# This allows you to use mysql if you want multi-server support! Or just want easier storage.
+MySQL: false
+
+# Ip, database, user info, and password for MySQL.
+# Make sure you create the database before enabling!
+ip: localhost
+port: 3306
+database: minecraft
+user: root
+password: password
+
+############################################################
+# +------------------------------------------------------+ #
+# |                   BungeeCord Settings                | #
+# +------------------------------------------------------+ #
+############################################################
+
+# If you are using BungeeCord, this will send out a message to all players on every server with
+# this plugin.
+BungeeCord: false

@@ -1,7 +1,9 @@
 package io.github.mac_genius.bountyrewards;
 
+import io.github.mac_genius.bountyrewards.CommandInfo.Command;
+import io.github.mac_genius.bountyrewards.Utils.AnnouncementListener;
+import io.github.mac_genius.bountyrewards.Utils.ExpirationChecker;
 import net.milkbowl.vault.economy.Economy;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -13,16 +15,27 @@ import org.bukkit.plugin.java.JavaPlugin;
  * @author John Harrison
  */
 public class BountyRewards extends JavaPlugin {
-    Plugin plugin = this;
-    private Economy economy;
-
+    private Economy econ = null;
+    public static PluginSettings settings;
+    /**
+     * This is activated when the plugin
+     */
     @Override
     public void onEnable() {
-        this.saveDefaultConfig();
-        setupEconomy();
-        getServer().getPluginManager().registerEvents(new Listeners(plugin, economy), plugin);
-        this.getCommand("br").setExecutor(new Commands(plugin, economy));
-        getLogger().info("Plugin enabled");
+        if (!setupEconomy() ) {
+            getLogger().severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+        settings = new PluginSettings(this, econ);
+        if (settings.getPlugin().isEnabled()) {
+            getServer().getPluginManager().registerEvents(new Listeners(settings), settings.getPlugin());
+            this.getCommand("bounty").setExecutor(new Command(settings));
+            settings.getPlugin().getServer().getScheduler().runTaskTimer(settings.getPlugin(), new ExpirationChecker(settings), 0, 600);
+            this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+            this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new AnnouncementListener());
+            getLogger().info("Plugin enabled");
+        }
     }
 
     @Override
@@ -31,10 +44,14 @@ public class BountyRewards extends JavaPlugin {
     }
 
     private boolean setupEconomy() {
-        RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
-        if (economyProvider != null) {
-            economy = economyProvider.getProvider();
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            return false;
         }
-        return (economy != null);
+        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+            return false;
+        }
+        econ = rsp.getProvider();
+        return econ != null;
     }
 }
