@@ -32,26 +32,38 @@ public class UpdateChecker {
     }
 
     private String latestItem(String page) {
-        return page.substring(page.indexOf("<item>"), page.indexOf("</item>"));
+        try {
+            return page.substring(page.indexOf("<item>"), page.indexOf("</item>"));
+        } catch (StringIndexOutOfBoundsException e) {}
+        return "";
     }
 
     private String getTitle(String item) {
-        return item.substring(item.indexOf("<title>") + 7, item.indexOf("</title>"));
+        try {
+            return item.substring(item.indexOf("<title>") + 7, item.indexOf("</title>"));
+        } catch (StringIndexOutOfBoundsException e) {}
+        return "";
     }
 
     private String parseVersion(String title) {
-        String version = "";
-        int start = title.indexOf("v.") + 2;
-        char current = title.charAt(start);
-        while (current != ' ') {
-            version += current;
-            start++;
-            current = title.charAt(start);
-        }
-        return version;
+        try {
+            String version = "";
+            int start = title.indexOf("v.") + 2;
+            char current = title.charAt(start);
+            while (current != ' ') {
+                version += current;
+                start++;
+                current = title.charAt(start);
+            }
+            return version;
+        } catch (StringIndexOutOfBoundsException e) {}
+        return "";
     }
 
     private String getDownloadLink(String item) {
-        return item.substring(item.indexOf("<link>") + 6, item.indexOf("</link>"));
+        try {
+            return item.substring(item.indexOf("<link>") + 6, item.indexOf("</link>"));
+        } catch (StringIndexOutOfBoundsException e) {}
+        return "";
     }
 }

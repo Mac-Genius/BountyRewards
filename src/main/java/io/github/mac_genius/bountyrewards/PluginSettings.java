@@ -47,7 +47,9 @@ public class PluginSettings {
             }
         }
         onlineServers = new ArrayList<>();
-        getVersion();
+        if (plugin.getConfig().getBoolean("UpdateChecking")) {
+            getVersion();
+        }
         enableMetrics();
     }
 
@@ -154,14 +156,16 @@ public class PluginSettings {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
             plugin.getLogger().info("Checking for updates...");
             latestVersion = new UpdateChecker().getVersion();
-            if (latestVersion.getVersion() != null) {
+            if (!latestVersion.getVersion().equals("")) {
                 if (plugin.getDescription().getVersion().equals(latestVersion.getVersion())) {
                     plugin.getLogger().info("BountyRewards is up to date.");
                     latestVersion.setNeedsUpdate(false);
                 } else {
                     latestVersion.setNeedsUpdate(true);
                     plugin.getLogger().info("There is a new version of BountyRewards available! (v." + latestVersion.getVersion() + ")");
-                    plugin.getLogger().info("You can download the latest version here: " + latestVersion.getDownloadLink() + " or you can download it from the Spigot page.");
+                    if (!latestVersion.getDownloadLink().equals("")) {
+                        plugin.getLogger().info("You can download the latest version here: " + latestVersion.getDownloadLink() + " or you can download it from the Spigot page.");
+                    }
                 }
             }
         });

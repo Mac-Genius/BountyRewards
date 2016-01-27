@@ -49,6 +49,9 @@ public class UpdateConfig {
             }
             if (version.equals("1.3")) {
                 settings.getPlugin().getLogger().info("Config.yml is up to date. (v.1.3)");
+                if (!config.contains("UpdateChecking:")) {
+                    spigot1_3();
+                }
             }
         } else if (config.contains("BungeeCord:")) {
             settings.getPlugin().getLogger().info("Your config.yml is outdated (v.1.2). Updating now...");
@@ -60,6 +63,33 @@ public class UpdateConfig {
         }
     }
 
+    private void spigot1_3() {
+        String newConfig = "";
+        Scanner splitter = new Scanner(config);
+        while (splitter.hasNext()) {
+            String current = splitter.nextLine();
+            if (current.contains("ConfigVersion:")) {
+                newConfig += current + "\n";
+                newConfig += "\n";
+                newConfig += "# UpdateChecking allows the plugin to check for a new version\n";
+                newConfig += "UpdateChecking: true\n";
+                newConfig += "\n";
+            } else {
+                newConfig += current + "\n";
+            }
+        }
+        config = newConfig;
+        try {
+            FileWriter writer = new FileWriter(mainConfig, false);
+            Scanner scan = new Scanner(config);
+            while (scan.hasNext()) {
+                writer.write(scan.nextLine() + "\n");
+                writer.flush();
+            }
+            writer.close();
+        } catch (IOException e) {
+        }
+    }
     private void config1_2() {
         String newConfig = "";
         Scanner splitter = new Scanner(config);
@@ -73,6 +103,9 @@ public class UpdateConfig {
                 if (header2.contains("Messages")) {
                     newConfig += "# The version of the config. DO NOT CHANGE\n";
                     newConfig += "ConfigVersion: 1.3\n";
+                    newConfig += "\n";
+                    newConfig += "# UpdateChecking allows the plugin to check for a new version\n";
+                    newConfig += "UpdateChecking: true\n";
                     newConfig += "\n";
                 }
                 newConfig += current + "\n";
