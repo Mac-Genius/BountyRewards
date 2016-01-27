@@ -45,3 +45,7 @@ Temporary Items
 BountyRewards.iml
 out
 *.class
+target/classes/io/github/mac_genius/bountyrewards/Commands.class
+*.lst
+src/main/java/io/github/mac_genius/bountyrewards/bukkit/
+target/classes/io/github/mac_genius/bountyrewards/BountyRewards.class

@@ -1,5 +1,9 @@
 package io.github.mac_genius.bountyrewards;
 
+import io.github.mac_genius.bountyrewards.Utils.UpdateChecker;
+import io.github.mac_genius.bountyrewards.Utils.UpdateConfig;
+import io.github.mac_genius.bountyrewards.Utils.Version;
+import io.github.mac_genius.bountyrewards.bukkit.metrics.src.main.java.org.mcstats.Metrics;
 import io.github.mac_genius.bountyrewards.storage.MySQL.MySQLCache;
 import io.github.mac_genius.bountyrewards.storage.MySQL.MySQLConfig;
 import io.github.mac_genius.bountyrewards.storage.MySQL.SQLConnect;
@@ -10,6 +14,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.fusesource.jansi.Ansi;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -24,11 +29,13 @@ public class PluginSettings {
     private boolean usingMySQL;
     private MySQLCache cache;
     private ArrayList<String> onlineServers;
+    private Version latestVersion;
 
     public PluginSettings(JavaPlugin javaPlugin, Economy economy) {
         this.javaPlugin = javaPlugin;
         this.plugin = javaPlugin;
         this.economy = economy;
+        updateConfig();
         setupConfig();
         //setupEconomy();
         data = new BountyData(javaPlugin, "bountydata.yml");
@@ -40,6 +47,8 @@ public class PluginSettings {
             }
         }
         onlineServers = new ArrayList<>();
+        getVersion();
+        enableMetrics();
     }
 
     public Plugin getPlugin() {
@@ -140,4 +149,44 @@ public class PluginSettings {
     public ArrayList<String> getOnlineServers() {
         return onlineServers;
     }
+
+    private void getVersion() {
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
+            plugin.getLogger().info("Checking for updates...");
+            latestVersion = new UpdateChecker().getVersion();
+            if (latestVersion.getVersion() != null) {
+                if (plugin.getDescription().getVersion().equals(latestVersion.getVersion())) {
+                    plugin.getLogger().info("BountyRewards is up to date.");
+                    latestVersion.setNeedsUpdate(false);
+                } else {
+                    latestVersion.setNeedsUpdate(true);
+                    plugin.getLogger().info("There is a new version of BountyRewards available! (v." + latestVersion.getVersion() + ")");
+                    plugin.getLogger().info("You can download the latest version here: " + latestVersion.getDownloadLink() + " or you can download it from the Spigot page.");
+                }
+            }
+        });
+    }
+
+    public Version getLatestVersion() {
+        return latestVersion;
+    }
+
+    public void updateLatestVersion(Version version) {
+        this.latestVersion = version;
+    }
+
+    private void enableMetrics() {
+        try {
+            Metrics metrics = new Metrics(plugin);
+            metrics.start();
+        } catch (IOException e) {
+            // Failed to submit the stats :-(
+        }
+    }
+
+    private void updateConfig() {
+        new UpdateConfig(this).updateConfig();
+    }
+
+
 }

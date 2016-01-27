@@ -4,6 +4,9 @@
 # If you want to update the messages and settings on the database, you change it here then
 # do "/bounty updatesql" in game. MySQL settings are still read from the config.
 
+# The version of the config. DO NOT CHANGE
+ConfigVersion: 1.3
+
 ############################################################
 # +------------------------------------------------------+ #
 # |                       Messages                       | #

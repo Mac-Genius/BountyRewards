@@ -204,6 +204,7 @@ public class MySQLBounty {
             }
         }
         if (success) {
+            //settings.getCache().getBounties().remove(Bukkit.getPlayer(UUID.fromString(bounty.getPlayerUUID())));
             refreshNetworkRemove(bounty);
         }
         return success;

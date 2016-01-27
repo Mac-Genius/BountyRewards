@@ -3,6 +3,7 @@ package io.github.mac_genius.bountyrewards;
 import io.github.mac_genius.bountyrewards.CommandInfo.Command;
 import io.github.mac_genius.bountyrewards.Utils.AnnouncementListener;
 import io.github.mac_genius.bountyrewards.Utils.ExpirationChecker;
+import io.github.mac_genius.bountyrewards.Utils.UpdateRun;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -32,6 +33,7 @@ public class BountyRewards extends JavaPlugin {
             getServer().getPluginManager().registerEvents(new Listeners(settings), settings.getPlugin());
             this.getCommand("bounty").setExecutor(new Command(settings));
             settings.getPlugin().getServer().getScheduler().runTaskTimer(settings.getPlugin(), new ExpirationChecker(settings), 0, 600);
+            settings.getPlugin().getServer().getScheduler().runTaskTimerAsynchronously(settings.getPlugin(), new UpdateRun(settings), 360000, 360000);
             this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
             this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new AnnouncementListener());
             getLogger().info("Plugin enabled");

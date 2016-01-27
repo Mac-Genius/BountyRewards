@@ -74,6 +74,12 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void playerJoin(PlayerJoinEvent event) {
+        if (event.getPlayer().hasPermission("br.showupdate")) {
+            if (settings.getLatestVersion().needsUpdate()) {
+                event.getPlayer().sendMessage("There is a new version of BountyRewards available! (v." + settings.getLatestVersion().getVersion() + ")");
+                event.getPlayer().sendMessage("You can download the latest version here: " + settings.getLatestVersion().getDownloadLink() + " or you can download it from the Spigot page.");
+            }
+        }
         if (settings.isUsingMySQL()) {
             MySQLBounty sqlBounty = new MySQLBounty(settings);
             Bounty bounty = sqlBounty.getBounty(event.getPlayer().getUniqueId().toString());
