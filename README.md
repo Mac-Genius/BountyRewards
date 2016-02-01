@@ -3,6 +3,7 @@ Project Pages
 
 <a href="http://dev.bukkit.org/bukkit-plugins/bountyrewards/"><img src="http://i.imgur.com/igYbvzR.png" title="Bukkit" height="7%" width="7%"></a>
 <a href="https://www.spigotmc.org/resources/bountyrewards.17589/"><img src="https://static.spigotmc.org/img/spigot.png" title="SpigotMC" height="10%" width="10%"></a>
+<a href="http://mcstats.org/plugin/BountyRewards/"><img src="http://i.mcstats.org/BountyRewards/Global+Statistics.borderless.png" title="SpigotMC" height="10%" width="50%"></a>
 
 # BountyRewards
 
